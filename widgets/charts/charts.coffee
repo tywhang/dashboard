@@ -25,9 +25,9 @@ class Dashing.Charts extends Dashing.Widget
         data: [86, 74, 68, 49, 42]
       ]
 
-  lineChart: (id, labels, datasets)->
+  lineChart: (id, labels, datasets) ->
     data = @merge labels: labels,
-      datasets: [@merge this[datasets[0].color](), label: datasets[0].label, data: datasets[0].data]
+      datasets: datasets.map (d) => @merge(this[d.color](), label: d.label, data: d.data)
     new Chart(document.getElementById(id).getContext("2d")).Line(data)
 
   merge: (xs...) =>
