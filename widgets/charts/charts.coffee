@@ -25,25 +25,19 @@ class Dashing.Charts extends Dashing.Widget
         data: [86, 74, 68, 49, 42]
       ]
 
-  lineChart: (id, dataset)->
+  lineChart: (id, datasets)->
     ctx = document.getElementById(id).getContext("2d")
-    data = {
-      labels: dataset[0].labels,
-      datasets: [{
-        label: dataset[0].label,
-        fillColor: "rgba(151, 187, 205, 0.2)",
-        strokeColor: "rgba(151, 187, 205, 1)",
-        pointColor: "rgba(151, 187, 205, 1)",
-        pointStrokeColor: "#fff",
-        pointHighlightFill: "#fff",
-        pointHighlightStroke: "rgba(151,187,205,1)",
-        data: dataset[0].data
-      }]
-    }
+    data = @merge labels: datasets[0].labels, datasets: [@merge this[datasets[0].color](), label: datasets[0].label, data: datasets[0].data]
     myLineChart = new Chart(ctx).Line(data)
 
+  merge: (xs...) =>
+    if xs?.length > 0
+      @tap {}, (m) -> m[k] = v for k, v of x for x in xs
 
-  @blue: ->
+  tap: (o, fn) -> fn(o); o
+
+
+  blue: ->
     {
       fillColor: "rgba(151, 187, 205, 0.2)",
       strokeColor: "rgba(151, 187, 205, 1)",
