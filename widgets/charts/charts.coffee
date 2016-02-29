@@ -18,17 +18,17 @@ class Dashing.Charts extends Dashing.Widget
 
   createFirstChart: ->
     @lineChart 'myChart',
+      ["Week 1", "Week 2", "Week 3", "Week 4", "Week 5", "Week 6", "Week 7"],
       [
         label: 'My cool chart',
         color: 'blue',
-        labels: ["Week 1", "Week 2", "Week 3", "Week 4", "Week 5", "Week 6", "Week 7"],
         data: [86, 74, 68, 49, 42]
       ]
 
-  lineChart: (id, datasets)->
-    ctx = document.getElementById(id).getContext("2d")
-    data = @merge labels: datasets[0].labels, datasets: [@merge this[datasets[0].color](), label: datasets[0].label, data: datasets[0].data]
-    myLineChart = new Chart(ctx).Line(data)
+  lineChart: (id, labels, datasets)->
+    data = @merge labels: labels,
+      datasets: [@merge this[datasets[0].color](), label: datasets[0].label, data: datasets[0].data]
+    new Chart(document.getElementById(id).getContext("2d")).Line(data)
 
   merge: (xs...) =>
     if xs?.length > 0
