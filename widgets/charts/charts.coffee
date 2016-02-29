@@ -17,18 +17,38 @@ class Dashing.Charts extends Dashing.Widget
     firstScriptTag.parentNode.insertBefore(tag, firstScriptTag)
 
   createFirstChart: ->
-    ctx = document.getElementById("myChart").getContext("2d")
+    @lineChart 'myChart',
+      [
+        label: 'My cool chart',
+        color: 'blue',
+        labels: ["Week 1", "Week 2", "Week 3", "Week 4", "Week 5", "Week 6", "Week 7"],
+        data: [86, 74, 68, 49, 42]
+      ]
+
+  lineChart: (id, dataset)->
+    ctx = document.getElementById(id).getContext("2d")
     data = {
-      labels: ["Week 1", "Week 2", "Week 3", "Week 4", "Week 5", "Week 6", "Week 7"],
+      labels: dataset[0].labels,
       datasets: [{
-        label: "My Second dataset",
+        label: dataset[0].label,
         fillColor: "rgba(151, 187, 205, 0.2)",
         strokeColor: "rgba(151, 187, 205, 1)",
         pointColor: "rgba(151, 187, 205, 1)",
         pointStrokeColor: "#fff",
         pointHighlightFill: "#fff",
         pointHighlightStroke: "rgba(151,187,205,1)",
-        data: [86, 74, 68, 49, 42]
+        data: dataset[0].data
       }]
     }
     myLineChart = new Chart(ctx).Line(data)
+
+
+  @blue: ->
+    {
+      fillColor: "rgba(151, 187, 205, 0.2)",
+      strokeColor: "rgba(151, 187, 205, 1)",
+      pointColor: "rgba(151, 187, 205, 1)",
+      pointStrokeColor: "#fff",
+      pointHighlightFill: "#fff",
+      pointHighlightStroke: "rgba(151,187,205,0.8)"
+    }
