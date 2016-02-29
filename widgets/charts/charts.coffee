@@ -17,8 +17,8 @@ class Dashing.Charts extends Dashing.Widget
     firstScriptTag.parentNode.insertBefore(tag, firstScriptTag)
 
   createFirstChart: ->
-    @lineChart 'myChart',
-      ["Week 1", "Week 2", "Week 3", "Week 4", "Week 5", "Week 6", "Week 7"],
+    @barChart 'myChart',
+      ["Week 1", "Week 2", "Week 3", "Week 4", "Week 5"],
       [
         label: 'My cool chart'
         color: 'blue'
@@ -30,59 +30,77 @@ class Dashing.Charts extends Dashing.Widget
       datasets: datasets.map (d) => @merge(this[d.color](), label: d.label, data: d.data)
     new Chart(document.getElementById(id).getContext("2d")).Line(data)
 
+  barChart: (id, labels, datasets) ->
+    data = @merge labels: labels,
+      datasets: datasets.map (d) => @merge(this[d.color](), label: d.label, data: d.data)
+    new Chart(document.getElementById(id).getContext("2d")).Bar(data)
+
+  radarChart: (id, labels, datasets) ->
+    data = @merge labels: labels,
+      datasets: datasets.map (d) => @merge(this[d.color](), label: d.label, data: d.data)
+    new Chart(document.getElementById(id).getContext("2d")).Radar(data)
+
   merge: (xs...) =>
     if xs?.length > 0
       @tap {}, (m) -> m[k] = v for k, v of x for x in xs
 
   tap: (o, fn) -> fn(o); o
 
+  colors: ->
+    blue: "151, 187, 205"
+    lightgray: "220, 220, 220"
+    red: "247, 70, 74"
+    green: "70, 191, 189"
+    yellow: "253, 180, 92"
+    gray: "148, 159, 177"
+    darkgray: "77, 83, 96"
 
   blue: ->
-    fillColor: "rgba(151, 187, 205, 0.2)"
-    strokeColor: "rgba(151, 187, 205, 1)"
-    pointColor: "rgba(151, 187, 205, 1)"
+    fillColor: "rgba(#{ @colors()['blue'] }, 0.2)"
+    strokeColor: "rgba(#{ @colors()['blue'] }, 1)"
+    pointColor: "rgba(#{ @colors()['blue'] }, 1)"
     pointStrokeColor: "#fff"
     pointHighlightFill: "#fff"
-    pointHighlightStroke: "rgba(151,187,205,0.8)"
-  lightgrey: ->
-    fillColor: "rgba(220,220,220,0.2)"
-    strokeColor: "rgba(220,220,220,1)"
-    pointColor: "rgba(220,220,220,1)"
+    pointHighlightStroke: "rgba(#{ @colors()['blue'] },0.8)"
+  lightgray: ->
+    fillColor: "rgba(#{ @colors()['lightgray'] }, 0.2)"
+    strokeColor: "rgba(#{ @colors()['lightgray'] }, 1)"
+    pointColor: "rgba(#{ @colors()['lightgray'] }, 1)"
     pointStrokeColor: "#fff"
     pointHighlightFill: "#fff"
-    pointHighlightStroke: "rgba(220,220,220,0.8)"
+    pointHighlightStroke: "rgba(#{ @colors()['lightgray'] },0.8)"
   red: ->
-    fillColor: "rgba(247,70,74,0.2)"
-    strokeColor: "rgba(247,70,74,1)"
-    pointColor: "rgba(247,70,74,1)"
+    fillColor: "rgba(#{ @colors()['red'] }, 0.2)"
+    strokeColor: "rgba(#{ @colors()['red'] }, 1)"
+    pointColor: "rgba(#{ @colors()['red'] }, 1)"
     pointStrokeColor: "#fff"
     pointHighlightFill: "#fff"
-    pointHighlightStroke: "rgba(247,70,74,0.8)"
+    pointHighlightStroke: "rgba(#{ @colors()['red'] },0.8)"
   green: ->
-    fillColor: "rgba(70,191,189,0.2)"
-    strokeColor: "rgba(70,191,189,1)"
-    pointColor: "rgba(70,191,189,1)"
+    fillColor: "rgba(#{ @colors()['green'] }, 0.2)"
+    strokeColor: "rgba(#{ @colors()['green'] }, 1)"
+    pointColor: "rgba(#{ @colors()['green'] }, 1)"
     pointStrokeColor: "#fff"
     pointHighlightFill: "#fff"
-    pointHighlightStroke: "rgba(70,191,189,0.8)"
+    pointHighlightStroke: "rgba(#{ @colors()['green'] },0.8)"
   yellow: ->
-    fillColor: "rgba(253,180,92,0.2)"
-    strokeColor: "rgba(253,180,92,1)"
-    pointColor: "rgba(253,180,92,1)"
+    fillColor: "rgba(#{ @colors()['yellow'] }, 0.2)"
+    strokeColor: "rgba(#{ @colors()['yellow'] }, 1)"
+    pointColor: "rgba(#{ @colors()['yellow'] }, 1)"
     pointStrokeColor: "#fff"
     pointHighlightFill: "#fff"
-    pointHighlightStroke: "rgba(253,180,92,0.8)"
+    pointHighlightStroke: "rgba(#{ @colors()['yellow'] },0.8)"
   gray: ->
-    fillColor: "rgba(148,159,177,0.2)"
-    strokeColor: "rgba(148,159,177,1)"
-    pointColor: "rgba(148,159,177,1)"
+    fillColor: "rgba(#{ @colors()['gray'] }, 0.2)"
+    strokeColor: "rgba(#{ @colors()['gray'] }, 1)"
+    pointColor: "rgba(#{ @colors()['gray'] }, 1)"
     pointStrokeColor: "#fff"
     pointHighlightFill: "#fff"
-    pointHighlightStroke: "rgba(148,159,177,0.8)"
-  darkgrey: ->
-    fillColor: "rgba(77,83,96,0.2)"
-    strokeColor: "rgba(77,83,96,1)"
-    pointColor: "rgba(77,83,96,1)"
+    pointHighlightStroke: "rgba(#{ @colors()['gray'] },0.8)"
+  darkgray: ->
+    fillColor: "rgba(#{ @colors()['darkgray'] }, 0.2)"
+    strokeColor: "rgba(#{ @colors()['darkgray'] }, 1)"
+    pointColor: "rgba(#{ @colors()['darkgray'] }, 1)"
     pointStrokeColor: "#fff"
     pointHighlightFill: "#fff"
-    pointHighlightStroke: "rgba(77,83,96,1)"
+    pointHighlightStroke: "rgba(#{ @colors()['darkgray'] },0.8)"
