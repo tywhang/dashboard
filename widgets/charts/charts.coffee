@@ -17,7 +17,7 @@ class Dashing.Charts extends Dashing.Widget
     firstScriptTag.parentNode.insertBefore(tag, firstScriptTag)
 
   createFirstChart: ->
-    @barChart 'myChart',
+    @radarChart 'myChart',
       ["Week 1", "Week 2", "Week 3", "Week 4", "Week 5"],
       [
         label: 'My cool chart'
@@ -27,17 +27,17 @@ class Dashing.Charts extends Dashing.Widget
 
   lineChart: (id, labels, datasets) ->
     data = @merge labels: labels,
-      datasets: datasets.map (d) => @merge(this[d.color](), label: d.label, data: d.data)
+      datasets: datasets.map (d) => @merge(this.color('blue'), label: d.label, data: d.data)
     new Chart(document.getElementById(id).getContext("2d")).Line(data)
 
   barChart: (id, labels, datasets) ->
     data = @merge labels: labels,
-      datasets: datasets.map (d) => @merge(this[d.color](), label: d.label, data: d.data)
+      datasets: datasets.map (d) => @merge(this.color('blue'), label: d.label, data: d.data)
     new Chart(document.getElementById(id).getContext("2d")).Bar(data)
 
   radarChart: (id, labels, datasets) ->
     data = @merge labels: labels,
-      datasets: datasets.map (d) => @merge(this[d.color](), label: d.label, data: d.data)
+      datasets: datasets.map (d) => @merge(this.color('blue'), label: d.label, data: d.data)
     new Chart(document.getElementById(id).getContext("2d")).Radar(data)
 
   merge: (xs...) =>
@@ -46,7 +46,7 @@ class Dashing.Charts extends Dashing.Widget
 
   tap: (o, fn) -> fn(o); o
 
-  colors: ->
+  colorCode: ->
     blue: "151, 187, 205"
     lightgray: "220, 220, 220"
     red: "247, 70, 74"
@@ -54,6 +54,14 @@ class Dashing.Charts extends Dashing.Widget
     yellow: "253, 180, 92"
     gray: "148, 159, 177"
     darkgray: "77, 83, 96"
+
+  color: (colorName) ->
+    fillColor: "rgba(#{ @colorCode()[colorName] }, 0.2)"
+    strokeColor: "rgba(#{ @colorCode()[colorName] }, 1)"
+    pointColor: "rgba(#{ @colorCode()[colorName] }, 1)"
+    pointStrokeColor: "#fff"
+    pointHighlightFill: "#fff"
+    pointHighlightStroke: "rgba(#{ @colorCode()['blue'] },0.8)"
 
   blue: ->
     fillColor: "rgba(#{ @colors()['blue'] }, 0.2)"
