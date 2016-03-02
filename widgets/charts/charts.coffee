@@ -7,6 +7,7 @@ class Dashing.Charts extends Dashing.Widget
   loadCharts: ->
     if window.Chart
       @createFirstChart()
+      @createSecondChart()
     else
       setTimeout(=> @loadCharts())
 
@@ -24,6 +25,31 @@ class Dashing.Charts extends Dashing.Widget
         color: 'blue'
         data: [86, 74, 68, 49, 42]
       ]
+
+  createSecondChart: ->
+    @doughnutChart("otherChart", [
+      {
+        value: 300
+        colorName: 'red'
+        label: "Red"
+      },
+      {
+        value: 50
+        colorName: 'green'
+        label: "Green"
+      }])
+
+  polarAreaChart: (id, datasets) ->
+    data = datasets.map (d) => @merge(this.circleColor(d.colorName), label: d.label, value: d.value)
+    new Chart(document.getElementById(id).getContext("2d")).PolarArea(data)
+
+  pieChart: (id, datasets) ->
+    data = datasets.map (d) => @merge(this.circleColor(d.colorName), label: d.label, value: d.value)
+    new Chart(document.getElementById(id).getContext("2d")).Pie(data)
+
+  doughnutChart: (id, datasets) ->
+    data = datasets.map (d) => @merge(this.circleColor(d.colorName), label: d.label, value: d.value)
+    new Chart(document.getElementById(id).getContext("2d")).Doughnut(data)
 
   lineChart: (id, labels, datasets) ->
     data = @merge labels: labels,
@@ -62,3 +88,7 @@ class Dashing.Charts extends Dashing.Widget
     pointStrokeColor: "#fff"
     pointHighlightFill: "#fff"
     pointHighlightStroke: "rgba(#{ @colorCode()['blue'] },0.8)"
+
+  circleColor: (colorName) ->
+    color: "rgba(#{ @colorCode()[colorName] }, 1)"
+    highlight: "rgba(#{ @colorCode()[colorName] }, 0.8)"
